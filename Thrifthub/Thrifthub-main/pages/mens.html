@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Men's Collection - Thriftique</title>
+    <link rel="stylesheet" href="../style.css?v=10">
+    <link rel="stylesheet" href="../pages/category.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <header>
+        <div class="header-container">
+            <div class="logo-container">
+                <a href="../index.html" class="logo">Thriftique</a>
+                <p class="tagline">Your Style, Your Story</p>
+            </div>
+            <div class="search-container">
+                <input type="text" placeholder="Search products..." id="searchInput">
+                <button type="button" id="searchButton">
+                    <i class="fas fa-search"></i>
+                </button>
+            </div>
+            <nav>
+                <ul class="nav-links">
+                    <li><a href="../index.html">Home</a></li>
+                    <li><a href="#">New Arrivals</a></li>
+                    <li><a href="#">Trending</a></li>
+                </ul>
+                <div class="auth-buttons">
+                    <button id="loginButton" class="login-button">Login</button>
+                    <button id="cartButton" class="login-button">Cart <span class="cart-count">0</span></button>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <div class="container">
+            <section class="category-header">
+                <h1>Men's Collection</h1>
+                <div class="category-filters">
+                    <select id="sortBy">
+                        <option value="price-asc">Price: Low to High</option>
+                        <option value="price-desc">Price: High to Low</option>
+                        <option value="newest">Newest First</option>
+                    </select>
+                    <select id="filterBy">
+                        <option value="all">All Products</option>
+                        <option value="clothing">Clothing</option>
+                        <option value="shoes">Shoes</option>
+                        <option value="accessories">Accessories</option>
+                    </select>
+                </div>
+            </section>
+
+            <section class="products-grid category-products" id="productsGrid">
+                <!-- Products will be loaded here -->
+            </section>
+        </div>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>About Us</h3>
+                <p>Your premier destination for unique fashion finds.</p>
+            </div>
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="../index.html">Home</a></li>
+                    <li><a href="#">Shop</a></li>
+                    <li><a href="#">About</a></li>
+                    <li><a href="#">Contact</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Connect With Us</h3>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-facebook"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <div id="loginModal" class="login-box" style="display: none;">
+        <h2>Login</h2>
+        <form id="loginForm">
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" required>
+            </div>
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Login</button>
+        </form>
+    </div>
+
+    <script>
+        const mensProducts = [
+            {
+                id: 1,
+                name: "Classic Denim Jacket",
+                price: 49.99,
+                image: "../src/Denim.jpg",
+                category: "clothing",
+                description: "A timeless denim jacket perfect for any casual occasion.",
+                sizes: ["S", "M", "L", "XL"],
+                colors: ["Blue", "Black"],
+                dateAdded: "2024-01-15"
+            },
+            {
+                id: 2,
+                name: "Slim Fit Jeans",
+                price: 39.99,
+                image: "../src/Denim.jpg",
+                category: "clothing",
+                description: "Modern slim fit jeans with a comfortable stretch.",
+                sizes: ["28", "30", "32", "34"],
+                colors: ["Blue", "Black"],
+                dateAdded: "2024-01-10"
+            },
+            {
+                id: 3,
+                name: "Casual Sneakers",
+                price: 59.99,
+                image: "../src/OHoddies.jpg",
+                category: "shoes",
+                description: "Comfortable and stylish sneakers for everyday wear.",
+                sizes: ["8", "9", "10", "11"],
+                colors: ["White", "Black"],
+                dateAdded: "2024-01-05"
+            },
+            {
+                id: 4,
+                name: "Classic T-Shirt",
+                price: 24.99,
+                image: "../src/OHoddies.jpg",
+                category: "clothing",
+                description: "Soft and comfortable t-shirt in a classic fit.",
+                sizes: ["S", "M", "L", "XL"],
+                colors: ["White", "Black", "Gray"],
+                dateAdded: "2024-01-20"
+            }
+        ];
+
+        function loadProducts(products = mensProducts) {
+            const productsGrid = document.getElementById('productsGrid');
+            productsGrid.innerHTML = '';
+            
+            products.forEach(product => {
+                const productCard = document.createElement('div');
+                productCard.className = 'product-card';
+                productCard.innerHTML = `
+                    <a href="product-details.html?id=${product.id}&category=men" class="product-link">
+                        <img src="${product.image}" alt="${product.name}" class="product-image">
+                        <div class="product-info">
+                            <h3 class="product-title">${product.name}</h3>
+                            <p class="product-price">$${product.price.toFixed(2)}</p>
+                        </div>
+                    </a>
+                    <div class="product-actions">
+                        <button class="add-to-cart-btn" onclick="addToCart(${product.id})">Add to Cart</button>
+                    </div>
+                `;
+                productsGrid.appendChild(productCard);
+            });
+        }
+
+        function sortProducts(sortBy) {
+            let sortedProducts = [...mensProducts];
+            switch(sortBy) {
+                case 'price-asc':
+                    sortedProducts.sort((a, b) => a.price - b.price);
+                    break;
+                case 'price-desc':
+                    sortedProducts.sort((a, b) => b.price - a.price);
+                    break;
+                case 'newest':
+                    sortedProducts.sort((a, b) => new Date(b.dateAdded) - new Date(a.dateAdded));
+                    break;
+            }
+            loadProducts(sortedProducts);
+        }
+
+        function filterProducts(filterBy) {
+            if (filterBy === 'all') {
+                loadProducts(mensProducts);
+            } else {
+                const filteredProducts = mensProducts.filter(product => product.category === filterBy);
+                loadProducts(filteredProducts);
+            }
+        }
+
+        function addToCart(productId) {
+            const product = mensProducts.find(p => p.id === productId);
+            if (!product) return;
+
+            const cartItem = {
+                id: product.id,
+                name: product.name,
+                price: product.price,
+                image: product.image,
+                color: product.colors[0],
+                size: product.sizes[0],
+                quantity: 1
+            };
+
+            let cart = JSON.parse(localStorage.getItem('cart')) || [];
+            const existingItem = cart.find(item => 
+                item.id === cartItem.id && 
+                item.color === cartItem.color && 
+                item.size === cartItem.size
+            );
+
+            if (existingItem) {
+                existingItem.quantity += 1;
+            } else {
+                cart.push(cartItem);
+            }
+
+            localStorage.setItem('cart', JSON.stringify(cart));
+            updateCartCount();
+            alert('Product added to cart!');
+        }
+
+        function updateCartCount() {
+            const cart = JSON.parse(localStorage.getItem('cart')) || [];
+            const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+            document.querySelector('.cart-count').textContent = totalItems;
+        }
+
+        // Event Listeners
+        document.getElementById('sortBy').addEventListener('change', (e) => {
+            sortProducts(e.target.value);
+        });
+
+        document.getElementById('filterBy').addEventListener('change', (e) => {
+            filterProducts(e.target.value);
+        });
+
+        document.getElementById('loginButton').addEventListener('click', () => {
+            document.getElementById('loginModal').style.display = 'block';
+        });
+
+        document.getElementById('loginForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            // Add login logic here
+            document.getElementById('loginModal').style.display = 'none';
+        });
+
+        // Initialize
+        loadProducts();
+        updateCartCount();
+    </script>
+</body>
+</html> 

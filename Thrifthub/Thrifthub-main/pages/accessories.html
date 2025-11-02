@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Accessories - Thriftique</title>
+    <link rel="stylesheet" href="../style.css?v=10">
+    <link rel="stylesheet" href="../pages/category.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <header>
+        <div class="header-container">
+            <div class="logo-container">
+                <a href="../index.html" class="logo">Thriftique</a>
+                <p class="tagline">Your Style, Your Story</p>
+            </div>
+            <div class="search-container">
+                <input type="text" placeholder="Search products..." id="searchInput">
+                <button type="button" id="searchButton">
+                    <i class="fas fa-search"></i>
+                </button>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="../index.html">Home</a></li>
+                    <li><a href="mens.html">Men's</a></li>
+                    <li><a href="womens.html">Women's</a></li>
+                    <li><a href="accessories.html">Accessories</a></li>
+                    <li><a href="luxury.html">Luxury</a></li>
+                    <li><a href="cart.html"><i class="fas fa-shopping-cart"></i> <span class="cart-count">0</span></a></li>
+                    <li><button id="loginBtn" class="login-button">Login</button></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <div class="container">
+            <section class="category-header">
+                <h1>Accessories</h1>
+                <div class="category-filters">
+                    <select id="sortBy">
+                        <option value="price-low">Price: Low to High</option>
+                        <option value="price-high">Price: High to Low</option>
+                        <option value="name">Name</option>
+                    </select>
+                    <select id="filterBy">
+                        <option value="all">All Products</option>
+                        <option value="bags">Bags</option>
+                        <option value="jewelry">Jewelry</option>
+                        <option value="watches">Watches</option>
+                        <option value="sunglasses">Sunglasses</option>
+                    </select>
+                </div>
+            </section>
+
+            <section class="products-grid" id="productsGrid">
+                <!-- Products will be loaded here -->
+            </section>
+        </div>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>About Us</h3>
+                <p>Your premier destination for unique fashion finds.</p>
+            </div>
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="../index.html">Home</a></li>
+                    <li><a href="#">Shop</a></li>
+                    <li><a href="#">About</a></li>
+                    <li><a href="#">Contact</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Connect With Us</h3>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-facebook"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <div id="loginModal" class="login-box" style="display: none;">
+        <h2>Login</h2>
+        <form id="loginForm">
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" required>
+            </div>
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Login</button>
+        </form>
+    </div>
+
+    <script>
+        const accessoriesProducts = [
+            { id: 1, name: "Leather Wallet", price: 29.99, image: "../src/accc.jpg", description: "Premium leather wallet with multiple card slots.", colors: ["Black", "Brown"], sizes: ["One Size"] },
+            { id: 2, name: "Designer Watch", price: 79.99, image: "../src/LUX.jpg", description: "Elegant designer watch with leather strap.", colors: ["Silver", "Gold"], sizes: ["One Size"] },
+            { id: 3, name: "Sunglasses", price: 24.99, image: "../src/accc.jpg", description: "Stylish sunglasses with UV protection.", colors: ["Black", "Brown"], sizes: ["One Size"] },
+            { id: 4, name: "Silk Scarf", price: 39.99, image: "../src/accc.jpg", description: "Luxurious silk scarf with elegant pattern.", colors: ["Blue", "Red", "Green"], sizes: ["One Size"] }
+        ];
+
+        function displayProducts(products) {
+            const productsGrid = document.querySelector('.products-grid');
+            productsGrid.innerHTML = '';
+            
+            products.forEach(product => {
+                const productCard = document.createElement('div');
+                productCard.className = 'product-card';
+                productCard.innerHTML = `
+                    <div class="product-link" onclick="window.location.href='product-details.html?id=${product.id}&category=accessories'">
+                        <img src="${product.image}" alt="${product.name}" class="product-image">
+                        <div class="product-info">
+                            <h3 class="product-title">${product.name}</h3>
+                            <p class="product-price">$${product.price.toFixed(2)}</p>
+                            <p class="product-description">${product.description}</p>
+                        </div>
+                    </div>
+                    <div class="product-actions">
+                        <button class="add-to-cart-btn" onclick="event.stopPropagation(); addToCart(${product.id})">Add to Cart</button>
+                    </div>
+                `;
+                productsGrid.appendChild(productCard);
+            });
+        }
+
+        function sortProducts(sortBy) {
+            let sortedProducts = [...accessoriesProducts];
+            switch(sortBy) {
+                case 'price-low':
+                    sortedProducts.sort((a, b) => a.price - b.price);
+                    break;
+                case 'price-high':
+                    sortedProducts.sort((a, b) => b.price - a.price);
+                    break;
+                case 'name':
+                    sortedProducts.sort((a, b) => a.name.localeCompare(b.name));
+                    break;
+            }
+            displayProducts(sortedProducts);
+        }
+
+        function filterProducts(filterBy) {
+            if (filterBy === 'all') {
+                displayProducts(accessoriesProducts);
+            } else {
+                const filteredProducts = accessoriesProducts.filter(product => product.category === filterBy);
+                displayProducts(filteredProducts);
+            }
+        }
+
+        function addToCart(productId) {
+            const product = accessoriesProducts.find(p => p.id === productId);
+            if (!product) return;
+
+            let cart = JSON.parse(localStorage.getItem('cart')) || [];
+            const existingItem = cart.find(item => item.id === productId && item.category === 'accessories');
+
+            if (existingItem) {
+                existingItem.quantity += 1;
+            } else {
+                cart.push({
+                    id: product.id,
+                    category: 'accessories',
+                    name: product.name,
+                    price: product.price,
+                    image: product.image,
+                    quantity: 1
+                });
+            }
+
+            localStorage.setItem('cart', JSON.stringify(cart));
+            updateCartCount();
+            alert('Product added to cart!');
+        }
+
+        function updateCartCount() {
+            const cart = JSON.parse(localStorage.getItem('cart')) || [];
+            const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+            document.querySelector('.cart-count').textContent = totalItems;
+        }
+
+        // Event Listeners
+        document.getElementById('sortBy').addEventListener('change', (e) => {
+            sortProducts(e.target.value);
+        });
+
+        document.getElementById('filterBy').addEventListener('change', (e) => {
+            filterProducts(e.target.value);
+        });
+
+        document.getElementById('loginBtn').addEventListener('click', () => {
+            document.getElementById('loginModal').style.display = 'block';
+        });
+
+        document.getElementById('loginForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            // Add login logic here
+            document.getElementById('loginModal').style.display = 'none';
+        });
+
+        // Initialize
+        displayProducts(accessoriesProducts);
+        updateCartCount();
+    </script>
+</body>
+</html> 

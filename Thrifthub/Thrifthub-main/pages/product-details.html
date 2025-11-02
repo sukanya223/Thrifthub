@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Details - Thriftique</title>
+    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <header>
+        <div class="header-container">
+            <div class="logo-container">
+                <a href="../index.html" class="logo">Thriftique</a>
+                <p class="tagline">Your Style, Your Story</p>
+            </div>
+            <div class="search-container">
+                <input type="text" placeholder="Search products..." id="searchInput">
+                <button type="button" id="searchButton">
+                    <i class="fas fa-search"></i>
+                </button>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="../index.html">Home</a></li>
+                    <li><a href="mens.html">Men's</a></li>
+                    <li><a href="womens.html">Women's</a></li>
+                    <li><a href="accessories.html">Accessories</a></li>
+                    <li><a href="luxury.html">Luxury</a></li>
+                    <li><a href="cart.html"><i class="fas fa-shopping-cart"></i> <span class="cart-count">0</span></a></li>
+                    <li><button id="loginBtn" class="login-button">Login</button></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <div class="container">
+            <div class="product-details" id="productDetails">
+                <!-- Product details will be loaded here -->
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>About Us</h3>
+                <p>Your premier destination for unique fashion finds.</p>
+            </div>
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="../index.html">Home</a></li>
+                    <li><a href="#">Shop</a></li>
+                    <li><a href="#">About</a></li>
+                    <li><a href="#">Contact</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Connect With Us</h3>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-facebook"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Product data (same as in index.html)
+        const products = {
+            women: [
+                { id: 1, name: "Elegant Blouse", price: 34.99, image: "../src/Women.jpg", description: "Elegant blouse for formal occasions.", colors: ["White", "Black", "Blue"], sizes: ["XS", "S", "M", "L"] },
+                { id: 2, name: "Floral Dress", price: 44.99, image: "../src/Women.jpg", description: "Beautiful floral dress for summer.", colors: ["Blue", "Pink", "Yellow"], sizes: ["XS", "S", "M", "L"] },
+                { id: 3, name: "Ankle Boots", price: 54.99, image: "../src/Women.jpg", description: "Stylish ankle boots for any occasion.", colors: ["Black", "Brown"], sizes: ["6", "7", "8", "9"] },
+                { id: 4, name: "Designer Handbag", price: 69.99, image: "../src/BAG.jpg", description: "Elegant designer handbag.", colors: ["Black", "Brown", "Red"], sizes: ["One Size"] }
+            ],
+            men: [
+                { id: 1, name: "Classic Denim Jacket", price: 49.99, image: "../src/Denim.jpg", description: "A stylish denim jacket perfect for casual outings.", colors: ["Blue", "Black"], sizes: ["S", "M", "L", "XL"] },
+                { id: 2, name: "Slim Fit Jeans", price: 39.99, image: "../src/OHoddies.jpg", description: "Comfortable slim fit jeans for everyday wear.", colors: ["Blue", "Black"], sizes: ["S", "M", "L", "XL"] },
+                { id: 3, name: "Casual Sneakers", price: 59.99, image: "../src/Sweaters.jpg", description: "Trendy sneakers for a casual look.", colors: ["White", "Black"], sizes: ["8", "9", "10", "11"] },
+                { id: 4, name: "Classic T-Shirt", price: 24.99, image: "../src/OHoddies.jpg", description: "Essential t-shirt for your wardrobe.", colors: ["White", "Black", "Gray"], sizes: ["S", "M", "L", "XL"] }
+            ],
+            accessories: [
+                { id: 9, name: "Leather Wallet", price: 29.99, image: "../src/accc.jpg", category: "accessories", description: "Premium leather wallet with multiple card slots.", colors: ["Black", "Brown"], sizes: ["One Size"] },
+                { id: 10, name: "Designer Watch", price: 79.99, image: "../src/LUX.jpg", category: "accessories", description: "Elegant designer watch with leather strap.", colors: ["Silver", "Gold"], sizes: ["One Size"] },
+                { id: 11, name: "Sunglasses", price: 24.99, image: "../src/accc.jpg", category: "accessories", description: "Stylish sunglasses with UV protection.", colors: ["Black", "Brown"], sizes: ["One Size"] },
+                { id: 12, name: "Silk Scarf", price: 39.99, image: "../src/accc.jpg", category: "accessories", description: "Luxurious silk scarf with elegant pattern.", colors: ["Blue", "Red", "Green"], sizes: ["One Size"] }
+            ],
+            luxury: [
+                { id: 13, name: "Designer Handbag", price: 199.99, image: "../src/BAG.jpg", category: "luxury", description: "Luxury designer handbag with premium leather and gold hardware.", colors: ["Black", "Brown", "Red"], sizes: ["One Size"] },
+                { id: 14, name: "Luxury Watch", price: 299.99, image: "../src/LUX.jpg", category: "luxury", description: "Premium luxury watch with automatic movement and sapphire crystal.", colors: ["Silver", "Gold", "Rose Gold"], sizes: ["One Size"] },
+                { id: 15, name: "Silk Scarf", price: 89.99, image: "../src/LUX.jpg", category: "luxury", description: "Luxurious silk scarf with hand-rolled edges and exclusive design.", colors: ["Blue", "Red", "Green"], sizes: ["One Size"] },
+                { id: 16, name: "Premium Sunglasses", price: 149.99, image: "../src/BAG.jpg", category: "luxury", description: "High-end sunglasses with polarized lenses and designer frame.", colors: ["Black", "Gold", "Silver"], sizes: ["One Size"] }
+            ]
+        };
+
+        // Function to load product details
+        function loadProductDetails() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const productId = parseInt(urlParams.get('id'));
+            const category = urlParams.get('category');
+            
+            const product = products[category]?.find(p => p.id === productId);
+            if (!product) {
+                document.getElementById('productDetails').innerHTML = '<p>Product not found</p>';
+                return;
+            }
+
+            const productDetails = document.getElementById('productDetails');
+            productDetails.innerHTML = `
+                <div class="product-details-container">
+                    <div class="product-image-container">
+                        <img src="${product.image}" alt="${product.name}" class="product-detail-image">
+                    </div>
+                    <div class="product-info-container">
+                        <h1 class="product-detail-title">${product.name}</h1>
+                        <p class="product-detail-price">$${product.price.toFixed(2)}</p>
+                        <p class="product-detail-description">${product.description}</p>
+                        
+                        <div class="product-options">
+                            <div class="color-options">
+                                <h3>Colors</h3>
+                                <div class="color-buttons">
+                                    ${product.colors.map(color => `
+                                        <button class="color-btn" style="background-color: ${color.toLowerCase()}">${color}</button>
+                                    `).join('')}
+                                </div>
+                            </div>
+                            
+                            <div class="size-options">
+                                <h3>Sizes</h3>
+                                <div class="size-buttons">
+                                    ${product.sizes.map(size => `
+                                        <button class="size-btn">${size}</button>
+                                    `).join('')}
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <button class="add-to-cart-btn" onclick="addToCart(${product.id}, '${category}')">Add to Cart</button>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Function to add to cart
+        function addToCart(productId, category) {
+            const product = products[category]?.find(p => p.id === productId);
+            if (!product) return;
+
+            let cart = JSON.parse(localStorage.getItem('cart')) || [];
+            const existingItem = cart.find(item => item.id === productId && item.category === category);
+
+            if (existingItem) {
+                existingItem.quantity += 1;
+            } else {
+                cart.push({
+                    id: product.id,
+                    category: category,
+                    name: product.name,
+                    price: product.price,
+                    image: product.image,
+                    quantity: 1
+                });
+            }
+
+            localStorage.setItem('cart', JSON.stringify(cart));
+            updateCartCount();
+            alert('Product added to cart!');
+        }
+
+        // Function to update cart count
+        function updateCartCount() {
+            const cartCount = document.querySelector('.cart-count');
+            if (!cartCount) return;
+            
+            try {
+                const cart = JSON.parse(localStorage.getItem('cart')) || [];
+                const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+                cartCount.textContent = totalItems;
+            } catch (error) {
+                console.error('Error updating cart count:', error);
+                cartCount.textContent = '0';
+            }
+        }
+
+        // Initialize the page
+        document.addEventListener('DOMContentLoaded', () => {
+            loadProductDetails();
+            updateCartCount();
+        });
+    </script>
+</body>
+</html> 
